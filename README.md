@@ -10,9 +10,11 @@ Incluye:
 Todos estos algoritmos comparten una única función de búsqueda general (graph_search), diferenciándose solo por el tipo de frontera, es decir, cola utilizada. 
 
 <u>El proyecto sigue esta estructura</u>
-.
+
 ├── search.py     #Para poder implementar la búsqueda y representación del problema  
+
 ├── utils.py     #Script de estructuras auxiliares
+
 └── run.py     #Script principal donde se ejecutan y se prueban las búsquedas.
 
 <u>¿Cómo funciona graph_search?</u>
@@ -40,7 +42,7 @@ def graph_search(problem, fringe):
     fringe.append(Node(problem.initial), problem)
     generated += 1
     ...
-
+```
 
 <u>La clave de este diseño es que el comportamiento del algoritmo es determinado por el tipo de frontera:</u>
 
@@ -81,7 +83,7 @@ append(item, problem)
 extend(items, problem)
 pop()
 __len__()
-
+```
 
 Esto permite que graph_search funcione con cualquiera de ellas.
 
@@ -136,6 +138,7 @@ ejecutar_busqueda("Ramificación y acotación",
 ejecutar_busqueda("Ramificación y acotación con subestimación",
                   search.branch_and_bound_with_underestimation_graph_search,
                   prob)
+```
 
 
 Cuya función es: La medición del tiempo, el cálculo de nodos generados y visitados, la impresión de la ruta óptima y coste total y la ejecución de las 4 estrategias.
