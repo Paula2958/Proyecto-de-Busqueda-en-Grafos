@@ -207,7 +207,7 @@ Tiempo de ejecución: 0.055 ms
 
 **Tabla completa de métricas.**
 
-<img width="781" height="511" alt="Screenshot 2025-12-11 at 10 19 13" src="https://github.com/user-attachments/assets/9f43831f-1103-4813-a7dd-94cd9c515855" />
+<img width="683" height="449" alt="Screenshot 2025-12-11 at 11 01 21" src="https://github.com/user-attachments/assets/70cb677c-26d9-48a0-b47f-d400c1aa7268" />
 
 (Los demás códigos se encuentran en el repositorio)
 
