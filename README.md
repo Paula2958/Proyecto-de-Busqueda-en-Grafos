@@ -9,7 +9,7 @@ Incluye:
 
 Todos estos algoritmos comparten una única función de búsqueda general (graph_search), diferenciándose solo por el tipo de frontera, es decir, cola utilizada. 
 
-<u>El proyecto sigue esta estructura</u>
+**El proyecto sigue esta estructura**
 
 ├── search.py     #Para poder implementar la búsqueda y representación del problema  
 
@@ -17,7 +17,7 @@ Todos estos algoritmos comparten una única función de búsqueda general (graph
 
 └── run.py     #Script principal donde se ejecutan y se prueban las búsquedas.
 
-<u>¿Cómo funciona graph_search?</u>
+**¿Cómo funciona graph_search?**
 
 La función graph_search(problem, fringe) -> Realiza todo el proceso de búsqueda: nodos generados, visitados, poda, control de ciclos y aplicación de heurísiticas cuando es necesario. 
 
@@ -44,7 +44,10 @@ def graph_search(problem, fringe):
     ...
 ```
 
-<u>La clave de este diseño es que el comportamiento del algoritmo es determinado por el tipo de frontera:</u>
+
+
+
+**La clave de este diseño es que el comportamiento del algoritmo es determinado por el tipo de frontera:**
 
 |Frontera| Clase | Algoritmo |
 |-----------|-----------|-----------|
@@ -54,7 +57,8 @@ def graph_search(problem, fringe):
 | PriorityHQueue | Ordenada por f = g + h | Ramificación y Acotación con Subestimación |
 
 
-<u>Funcionamiento interno</u>
+
+**Funcionamiento interno**
 
 Graph_search: Inserta el nodo inicial en la frontera; extrae esos nodos según el orden establecido por esa frontera; cuenta el número de nodos generados y visitados y, finalmente, detecta esos estados ya explorados (lista cerrada)
 
@@ -65,17 +69,65 @@ Cuando se llega al estado objetivo, se calcula el coste total real del camino y 
 
 
 
-<u>Estructuras de datos de frontera (colas)</u>
+**Estructuras de datos de frontera (colas)**
 
 En el fichero utils.py se definen las colas personalizadas: 
 
 FIFOQueue → Amplitud (Expande primero los nodos más antiguos.)
+```python
+class FIFOQueue(Queue):
+    """Cola FIFO (para amplitud)"""
+
+    def __init__(self):
+        self.A = []
+        self.start = 0
+
+    def append(self, item, problem):
+        self.A.append(item)
+        ...
+```
+
 
 Stack → Profundidad (Expande el nodo más reciente.)
 
+
 PriorityQueue → Ramificación y Acotación (Ordena por coste acumulado g(n).)
+```python
+class PriorityQueue(Queue):
+    """Ramificación y acotación (coste acumulado g = path_cost)."""
+
+    def __init__(self):
+        # lista de tuplas (priority, count, item) ordenada ascendentemente
+        self.data = []
+        self.count = 0
+
+    def append(self, item, problem):
+        priority = item.path_cost           # g(n)
+        count = self.count
+        self.count += 1
+        entry = (priority, count, item)
+        ...
+```
 
 PriorityHQueue → Ramificación y Acotación con subestimación (Ordena por f(n) = g(n) + h(n) usando la heurística de distancia euclídea.)
+```python
+class PriorityHQueue(Queue):
+    """Ramificación y acotación con subestimación (f = g + h)."""
+
+    def __init__(self):
+        self.data = []
+        self.count = 0
+
+    def append(self, item, problem):
+        priority = item.path_cost + problem.h(item)   # f(n) = g+h
+        count = self.count
+        self.count += 1
+        entry = (priority, count, item)
+
+        ...
+```
+
+
 
 Todas las colas comparten esta interfaz:
 ```python
@@ -87,7 +139,7 @@ __len__()
 
 Esto permite que graph_search funcione con cualquiera de ellas.
 
-<u>El problema GPS (Graph Path Search)</u>
+**El problema GPS (Graph Path Search)**
 
 GPSProblem representa el problema de navegar un grafo ponderado (en este caso, el mapa de Rumanía).
 
@@ -97,9 +149,9 @@ Incluye:
 3. h(node) -> distancia euclídea al objetivo (solo para heurística)
 
 
-<u>Ejecución de las búsquedas (run.py)</u>
+**Ejecución de las búsquedas (run.py)**
 
-El script run.py realiza:
+El script run.py tiene esta forma:
 
 ```python
 import time
@@ -153,12 +205,12 @@ Ruta: [<Node F>, <Node S>, <Node R>, <Node C>, <Node D>, <Node M>]
 Tiempo de ejecución: 0.055 ms
 
 
-<u>Obtendrás la tabla completa de métricas.</u>
+**Tabla completa de métricas.**
 
 <img width="781" height="511" alt="Screenshot 2025-12-11 at 10 19 13" src="https://github.com/user-attachments/assets/9f43831f-1103-4813-a7dd-94cd9c515855" />
 
 (Los demás códigos se encuentran en el repositorio)
 
-8. Conclusión del proyecto
+**Conclusión del proyecto**
 
 Con este proyecto logramos implementar al completo un sistema de búsqueda de grafos con la capacidad suficiente para poder: Explorar el espacio de estados, controlar esos nodos duplicados, realizar las búsquedas más óptimas según el coste, aplicar las heurísticas admisibles, media eficiencia a través de los nodos generados y los visitados.
